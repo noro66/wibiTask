@@ -2,9 +2,10 @@ import { create } from 'zustand'
 import api        from '../api/axios.js'
 import { toast }  from 'react-hot-toast'
 
-export const useAuthStore = create(() => ({
+export const useAuthStore = create((set) => ({
   user: JSON.parse(localStorage.getItem('user')) || null,
   token: localStorage.getItem('token') || null,
+  users: [],
   login: async (data) => {
     try{
       const {username, password} = data;
@@ -22,4 +23,17 @@ export const useAuthStore = create(() => ({
     localStorage.removeItem('user')
     localStorage.removeItem('token')
   },
+  getUsers: async()=>{
+    try{
+      const response = await  api.get('/users');
+      const fetchedUsers = response?.data;
+      const filteredUsers = fetchedUsers.filter(user => user.role !== 'admin');
+
+      console.log('users', fetchedUsers);
+
+      set({users : filteredUsers})
+    }catch (error){
+      console.log(error?.response?.data?.error);
+    }
+  }
 }))
