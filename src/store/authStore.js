@@ -14,6 +14,7 @@ export const useAuthStore = create((set) => ({
       const token  = user.token;
       localStorage.setItem('user', JSON.stringify(user))
       localStorage.setItem('token', token)
+
     }catch (error){
       toast.error(error?.response?.data?.error || 'An error occurred');
       throw error;

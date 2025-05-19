@@ -3,7 +3,7 @@ import React                   from 'react'
 
 const Task = ({ task, onEdit, onDelete, onToggleComplete }) => {
   return (
-    <div className="bg-white border border-gray-200 rounded-lg p-4 mb-4">
+    <div className="bg-white border border-gray-200 rounded-lg p-4 mb-4 group">
       <div className="flex items-center justify-between">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-2">
@@ -12,7 +12,7 @@ const Task = ({ task, onEdit, onDelete, onToggleComplete }) => {
           <h3 className="text-lg font-semibold text-gray-900 mb-1">{task.title}</h3>
           <p className="text-gray-500 text-sm">{task.note}</p>
         </div>
-        <div className="flex items-center gap-2 ml-4">
+        <div className="items-center gap-2 ml-4 hidden group-hover:flex">
           <button
             onClick={() => onEdit(task.id)}
             className="p-2 text-gray-400 hover:text-gray-600 transition-colors"

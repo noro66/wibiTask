@@ -3,13 +3,13 @@ import { Check, Plus, User, }         from 'lucide-react';
 import Task from '../components/Task.jsx'
 import TaskModal from '../components/TaskModal.jsx'
 import { useAuthStore }               from '../store/authStore.js'
+import { useNavigate }                from 'react-router-dom'
 
 export default function TaskPage() {
-  const {getUsers, users} = useAuthStore();
+  const { user, logout} = useAuthStore();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    getUsers();
-  }, [getUsers])
+
   const [tasks, setTasks] = useState([
     {
       id: 1,
@@ -82,16 +82,19 @@ export default function TaskPage() {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
-                <Check className="w-5 h-5 text-white" strokeWidth={3} />
-              </div>
-              <span className="text-xl font-semibold text-gray-900">Taski</span>
+              <img src="/images/Logo.svg" alt=""/>
             </div>
 
             {/* User Profile */}
             <div className="flex items-center gap-3">
-              <span className="text-gray-700 font-medium">Admin</span>
-              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+              <span className="text-gray-700 font-medium">{user?.username ?? user?.fullName?.split(' ')[0]}</span>
+              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center"
+              onClick={()=> {
+                logout();
+                navigate('/login', {replace: true});
+              }
+              }
+              >
                 <User className="w-5 h-5 text-white" />
               </div>
             </div>
@@ -104,7 +107,7 @@ export default function TaskPage() {
         {/* Welcome Section */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Welcome, <span className="text-blue-500">Admin</span>.
+            Welcome, <span className="text-blue-500">{user?.username ?? user?.firstName.split(' ')[0]}</span>.
           </h1>
           <p className="text-gray-600">
             Your team got {pendingTasks.length} task{pendingTasks.length !== 1 ? 's' : ''} to do.
@@ -143,7 +146,6 @@ export default function TaskPage() {
           onClose={handleCloseModal}
           onSave={handleSaveTask}
           task={editingTask}
-          users={users}
         />
       </main>
     </div>

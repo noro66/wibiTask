@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { ChevronDown }                from 'lucide-react'
+import { useAuthStore }               from '../store/authStore.js'
 
-const TaskModal = ({ isOpen, onClose, onSave, task = null, users = [] }) => {
+const TaskModal = ({ isOpen, onClose, onSave, task = null }) => {
+  const {getUsers, users} =  useAuthStore();
+
+  useEffect(() => {
+    getUsers();
+  }, [getUsers])
+
   const [formData, setFormData] = useState({
     title: task?.title || '',
     description: task?.note || '',
