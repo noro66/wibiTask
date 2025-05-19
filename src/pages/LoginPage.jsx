@@ -46,11 +46,11 @@ export default function LoginPage() {
                 type="text"
                 id="username"
                 {...register('username', { required: 'username is required' })}
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                className={ `w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${errors.username && 'border-red-500'}` }
                 placeholder="Enter your username"
               />
               {errors.username && (
-                <p className="text-red-500 text-xs mt-1">{errors.username.message}</p>
+                <p className="text-red-500 text-l ml-1 mt-1">{errors.username.message}</p>
               )}
             </div>
 
@@ -64,14 +64,15 @@ export default function LoginPage() {
                   type={showPassword ? 'text' : 'password'}
                   id="password"
                   {...register('password', { required: 'Password is required' })}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors pr-12"
+                  className={`w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors pr-12 ${errors.username && 'border-red-500'}`}
                   placeholder="Enter your password"
                 />
                 <button
                   type="button"
                   onClick={togglePasswordVisibility}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                  className="absolute right-4 top-[50%] transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                   tabIndex={-1}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? (
                     <EyeOff className="w-5 h-5" />
@@ -79,10 +80,10 @@ export default function LoginPage() {
                     <Eye className="w-5 h-5" />
                   )}
                 </button>
+                </div>
                 {errors.password && (
-                  <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>
+                  <p className="text-red-500 text-l ml-1 mt-1">{errors.password.message}</p>
                 )}
-              </div>
             </div>
 
             {/* Login Button */}
