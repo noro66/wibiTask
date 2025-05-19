@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuthStore } from './store/authStore'
 import LoginPage from "./pages/LoginPage";
 // import TasksPage from "./pages/TasksPage";
+import { Toaster }   from "react-hot-toast";
 
 function PrivateRoute({ children }) {
   const { token } = useAuthStore();
@@ -10,6 +11,7 @@ function PrivateRoute({ children }) {
 
 export default function App() {
   return (
+    <>
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
@@ -17,5 +19,7 @@ export default function App() {
         <Route path="*" element={<Navigate to="/tasks" />} />
       </Routes>
     </BrowserRouter>
+   <Toaster toastOptions={ { duration: 5000 } } />
+    </>
   );
 }
