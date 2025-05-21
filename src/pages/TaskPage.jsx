@@ -5,6 +5,7 @@ import TaskModal from '../components/TaskModal.jsx'
 import { useAuthStore }               from '../store/authStore.js'
 import { useNavigate }                from 'react-router-dom'
 import { useTaskStore }                  from '../store/taskStore.js'
+import { hasPermission } from '../../public/constants/auth.js'
 
 export default function TaskPage() {
   const { user, logout} = useAuthStore();
@@ -67,7 +68,7 @@ export default function TaskPage() {
     setIsModalOpen(true);
   };
 
-  const pendingTasks = tasks.filter(task => !task.completed);
+  const pendingTasks = tasks.filter(task => task.status !== 'done');
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -105,7 +106,7 @@ export default function TaskPage() {
             Welcome, <span className="text-blue-500">{user?.username ?? user?.firstName.split(' ')[0]}</span>.
           </h1>
           <p className="text-gray-600">
-            Your team got {pendingTasks.length} task{pendingTasks.length !== 1 ? 's' : ''} to do.
+            Your {user.role === 'admin' ? 'team' : "'ve"} got {pendingTasks.length} task{pendingTasks.length !== 1 ? 's' : ''} to do.
           </p>
         </div>
 
@@ -122,7 +123,7 @@ export default function TaskPage() {
           ))}
 
           {/* Add New Task */}
-          <div className="bg-white border border-gray-200 rounded-lg p-4">
+          {hasPermission(user, 'create:task') && (<div className="bg-white border border-gray-200 rounded-lg p-4">
             <button
               onClick={handleAddNewTask}
               className="flex items-center gap-3 w-full text-left"
@@ -132,7 +133,7 @@ export default function TaskPage() {
               </div>
               <span className="text-gray-500">Add a new task...</span>
             </button>
-          </div>
+          </div>)}
         </div>
 
         {/* Task Modal */}
