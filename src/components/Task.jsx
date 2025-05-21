@@ -1,7 +1,7 @@
 import { Check, Edit, Trash2 } from 'lucide-react'
 import React                   from 'react'
-import { useAuthStore }        from '../store/authStore.js'
-import { hasPermission }       from '../../public/constants/auth.js'
+import { useAuthStore }  from '../store/authStore.js'
+import { hasPermission } from '../constants/roles.js'
 
 const Task = ({ task, onEdit, onDelete, onToggleComplete }) => {
   const {user} = useAuthStore();

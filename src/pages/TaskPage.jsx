@@ -4,8 +4,8 @@ import Task from '../components/Task.jsx'
 import TaskModal from '../components/TaskModal.jsx'
 import { useAuthStore }               from '../store/authStore.js'
 import { useNavigate }                from 'react-router-dom'
-import { useTaskStore }                  from '../store/taskStore.js'
-import { hasPermission } from '../../public/constants/auth.js'
+import { useTaskStore }  from '../store/taskStore.js'
+import { hasPermission } from '../constants/roles.js'
 
 export default function TaskPage() {
   const { user, logout} = useAuthStore();

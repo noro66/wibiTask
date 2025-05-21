@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { ChevronDown }                from 'lucide-react'
-import { useAuthStore }               from '../store/authStore.js'
-import { hasPermission }              from '../../public/constants/auth.js'
+import { useAuthStore }  from '../store/authStore.js'
+import { hasPermission } from '../constants/roles.js'
 
 const TaskModal = ({ isOpen, onClose, onSave, task = null }) => {
   const {getUsers, users, user} =  useAuthStore();
