@@ -3,6 +3,7 @@ import { useForm }         from 'react-hook-form';
 import { Eye, EyeOff } from 'lucide-react';
 import { useAuthStore } from '../store/authStore.js';
 import { useNavigate }     from 'react-router-dom'
+import { toast }           from 'react-hot-toast'
 
 export default function LoginPage() {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -12,8 +13,8 @@ export default function LoginPage() {
 
   const onSubmit = async (data) => {
       try{
-       await login(data)
-        navigate('/tasks')
+       const user = await login(data);
+       if(user) navigate('/tasks');
       }catch (error){
         console.log({ error })
       }
