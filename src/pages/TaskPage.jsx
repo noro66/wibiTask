@@ -14,7 +14,7 @@ export default function TaskPage() {
     fetchTasks()
   }, [])
 
-  const {tasks, fetchTasks}  = useTaskStore();
+  const {tasks, fetchTasks, createTask, updateTask, deleteTask}  = useTaskStore();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
@@ -26,34 +26,32 @@ export default function TaskPage() {
     setIsModalOpen(true);
   };
 
-  const handleDeleteTask = (taskId) => {
-    // setTasks(tasks.filter(task => task.id !== taskId));
+  const handleDeleteTask = async (taskId) => {
+    if (window.confirm('Are you sure you want to delete this task?')) {
+      await deleteTask(taskId);
+    }
   };
 
-  const handleToggleComplete = (taskId) => {
-    setTasks(tasks.map(task =>
-      task.id === taskId ? { ...task, completed: !task.completed } : task
-    ));
+  const handleToggleComplete = async (taskId) => {
+    const task = tasks.find(t => t.id === taskId);
+    const updatedTask = { ...task, status: 'done' };
+    await updateTask(taskId, updatedTask);
   };
 
-  const handleSaveTask = (taskData) => {
+  const handleSaveTask = async (taskData) => {
     if (editingTask) {
       // Update existing task
-      setTasks(tasks.map(task =>
-        task.id === editingTask.id
-          ? { ...task, title: taskData.title, note: taskData.description, assignee: taskData.assignee }
-          : task
-      ));
+      console.log({editingTask})
+      await updateTask(editingTask.id, taskData);
     } else {
       // Add new task
       const newTask = {
-        id: Date.now(), // Simple ID generation
         title: taskData.title,
-        note: taskData.description,
-        assignee: taskData.assignee,
-        completed: false
+        description: taskData.description,
+        assignedTo: taskData.assignedTo,
+        status: 'in_progress',
       };
-      setTasks([...tasks, newTask]);
+      await createTask(newTask);
     }
     setEditingTask(null);
   };

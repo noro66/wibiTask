@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { ChevronDown }                from 'lucide-react'
 import { useAuthStore }               from '../store/authStore.js'
+import { hasPermission }              from '../../public/constants/auth.js'
 
 const TaskModal = ({ isOpen, onClose, onSave, task = null }) => {
-  const {getUsers, users} =  useAuthStore();
+  const {getUsers, users, user} =  useAuthStore();
 
   useEffect(() => {
     getUsers();
@@ -12,7 +13,7 @@ const TaskModal = ({ isOpen, onClose, onSave, task = null }) => {
   const [formData, setFormData] = useState({
     title: task?.title || '',
     description: task?.note || '',
-    assignee: task?.assignee || ''
+    assignedTo: task?.assignedTo || ''
   });
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -24,7 +25,7 @@ const TaskModal = ({ isOpen, onClose, onSave, task = null }) => {
       setFormData({
         title: task?.title || '',
         description: task?.description || '',
-        assignee: task?.assignee || ''
+        assignedTo: task?.assignedTo || ''
       });
       setIsDropdownOpen(false);
     }
@@ -80,46 +81,46 @@ const TaskModal = ({ isOpen, onClose, onSave, task = null }) => {
             />
           </div>
 
-          {/* Assign To */}
-          <div className="flex-1">
-            <label className="block text-lg font-bold text-gray-900 mb-3" id="assignee-label">
-              Assign to
+          {hasPermission(user, 'assign:task') && (
+            <div className="flex-1">
+            <label className="block text-lg font-bold text-gray-900 mb-3" id="assignedTo-label">
+            Assign to
             </label>
             <div className="relative">
-              <button
-                type="button"
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-left flex items-center justify-between bg-gray-50"
-                aria-expanded={isDropdownOpen}
-                aria-labelledby="assignee-label"
-              >
-        <span className={formData.assignee ? 'text-gray-900' : 'text-gray-400'}>
-          {formData.assignee || 'Assign to'}
+            <button
+            type="button"
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-left flex items-center justify-between bg-gray-50"
+          aria-expanded={isDropdownOpen}
+          aria-labelledby="assignedTo-label"
+        >
+        <span className={formData.assignedTo ? 'text-gray-900' : 'text-gray-400'}>
+          {formData.assignedTo || 'Assign to'}
         </span>
-                <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
-              </button>
+          <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+        </button>
 
-              {isDropdownOpen && (
-                <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-xl shadow-lg z-10 overflow-hidden max-h-60 overflow-y-auto">
-                  {users?.length > 0 ? users.map((user) => (
-                    <button
-                      key={user}
-                      type="button"
-                      onClick={() => {
-                        handleInputChange('assignee', user.username);
-                        setIsDropdownOpen(false);
-                      }}
-                      className="w-full px-4 py-3 text-left hover:bg-gray-50 text-gray-900 transition-colors"
-                    >
-                      {user.username}
-                    </button>
-                  )) : (
-                    <div className="px-4 py-3 text-gray-500">No users available</div>
-                  )}
-                </div>
-              )}
-            </div>
+        {isDropdownOpen && (
+          <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-xl shadow-lg z-10 overflow-hidden max-h-60 overflow-y-auto">
+            {users?.length > 0 ? users.map((user) => (
+              <button
+                key={user}
+                type="button"
+                onClick={() => {
+                  handleInputChange('assignedTo', user.username);
+                  setIsDropdownOpen(false);
+                }}
+                className="w-full px-4 py-3 text-left hover:bg-gray-50 text-gray-900 transition-colors"
+              >
+                {user.username}
+              </button>
+            )) : (
+              <div className="px-4 py-3 text-gray-500">No users available</div>
+            )}
           </div>
+        )}
+      </div>
+    </div>)}
         </div>
 
         {/* Description */}

@@ -22,4 +22,40 @@ export  const useTaskStore = create((set)=>({
       toast.error(error?.response?.data?.error || 'Failed to fetch tasks');
     }
   },
+  createTask: async (task)=>{
+    try{
+      const response = await api.post('/tasks', task);
+      const newTask = response.data;
+      set((state) => ({ tasks: [...state.tasks, newTask] }));
+      toast.success('Task created successfully');
+    }catch (error){
+      console.error('Error creating task:', error);
+      toast.error(error?.response?.data?.error || 'Failed to create task');
+    }
+  },
+  updateTask: async (taskId, updatedTask) => {
+    try {
+      const response = await api.put(`/tasks/${taskId}`, updatedTask);
+      const newTask = response.data;
+      set((state) => ({
+        tasks: state.tasks.map(task => (task.id === taskId ? newTask : task))
+      }));
+      toast.success('Task updated successfully');
+    } catch (error) {
+      console.error('Error updating task:', error);
+      toast.error(error?.response?.data?.error || 'Failed to update task');
+    }
+  },
+  deleteTask: async (taskId) => {
+    try {
+      await api.delete(`/tasks/${taskId}`);
+      set((state) => ({
+        tasks: state.tasks.filter(task => task.id !== taskId)
+      }));
+      toast.success('Task deleted successfully');
+    } catch (error) {
+      console.error('Error deleting task:', error);
+      toast.error(error?.response?.data?.error || 'Failed to delete task');
+    }
+  },
 }))
