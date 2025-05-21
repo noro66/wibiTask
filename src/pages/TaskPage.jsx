@@ -12,7 +12,7 @@ export default function TaskPage() {
   const navigate = useNavigate();
   useEffect(() => {
     fetchTasks()
-  }, [])
+  }, []);
 
   const {tasks, fetchTasks, createTask, updateTask, deleteTask}  = useTaskStore();
 

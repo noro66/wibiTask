@@ -6,10 +6,6 @@ import { hasPermission } from '../constants/roles.js'
 const TaskModal = ({ isOpen, onClose, onSave, task = null }) => {
   const {getUsers, users, user} =  useAuthStore();
 
-  useEffect(() => {
-    getUsers();
-  }, [getUsers])
-
   const [formData, setFormData] = useState({
     title: task?.title || '',
     description: task?.note || '',
@@ -21,15 +17,20 @@ const TaskModal = ({ isOpen, onClose, onSave, task = null }) => {
 
   // Reset form when modal opens/closes or task changes
   useEffect(() => {
-    if (isOpen) {
-      setFormData({
-        title: task?.title || '',
-        description: task?.description || '',
-        assignedTo: task?.assignedTo || ''
-      });
-      setIsDropdownOpen(false);
+
+    const handleOpen = async ()=>{
+      if (isOpen) {
+        getUsers();
+        setFormData({
+          title: task?.title || '',
+          description: task?.description || '',
+          assignedTo: task?.assignedTo || ''
+        });
+        setIsDropdownOpen(false);
+      }
     }
-  }, [isOpen, task]);
+    handleOpen();
+  }, [isOpen, task, getUsers]);
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
