@@ -69,9 +69,9 @@ export default function TaskPage() {
   const pendingTasks = tasks.filter(task => task.status !== 'done');
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200">
+      <header className="bg-white mt-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
@@ -81,7 +81,7 @@ export default function TaskPage() {
 
             {/* User Profile */}
             <div className="flex items-center gap-3">
-              <span className="text-gray-700 font-medium undel">{user?.username ?? user?.fullName?.split(' ')[0]}</span>
+              <span className="text-gray-700 font-semibold undel">{user?.username ?? user?.fullName?.split(' ')[0]}</span>
               <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center"
               onClick={()=> {
                 logout();
@@ -89,7 +89,7 @@ export default function TaskPage() {
               }
               }
               >
-                <User className="w-5 h-5 text-white" />
+                <img src={user.role === 'admin' ? '/images/admin-avatar.svg' : "/image/normal-user-avatar.svg"} alt=""/>
               </div>
             </div>
           </div>
@@ -103,7 +103,7 @@ export default function TaskPage() {
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             Welcome, <span className="text-blue-500">{user?.username ?? user?.firstName.split(' ')[0]}</span>.
           </h1>
-          <p className="text-gray-600">
+          <p className="text-[#8D9CB8] font-medium text-lg">
             Your {user.role === 'admin' ? 'team' : "'ve"} got {pendingTasks.length} task{pendingTasks.length !== 1 ? 's' : ''} to do.
           </p>
         </div>
@@ -121,10 +121,10 @@ export default function TaskPage() {
           ))}
 
           {/* Add New Task */}
-          {hasPermission(user, 'create:task') && (<div className="bg-white border border-gray-200 rounded-lg p-4">
+          {hasPermission(user, 'create:task') && (<div className="font-semibold text-l rounded-lg p-4">
             <button
               onClick={handleAddNewTask}
-              className="flex items-center gap-3 w-full text-left"
+              className="flex items-center gap-3 w-full text-left cursor-pointer"
             >
               <div className="w-6 h-6 border-2 border-gray-300 rounded flex items-center justify-center">
                 <Plus className="w-4 h-4 text-gray-400" />

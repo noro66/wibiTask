@@ -25,29 +25,29 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[#F5F7F9] flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="bg-white rounded-2xl border border-blue-200 shadow-sm p-8">
           {/* Header with Logo */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-2 mb-6">
+            <div className="inline-flex items-center gap-2 mb-24">
               <img src="/images/Logo.svg" alt="Logo wibiTask"/>
             </div>
-            <h1 className="text-3xl font-bold text-gray-900">Login</h1>
+            <h1 className="text-3xl font-semibold text-gray-900">Login</h1>
           </div>
 
           {/* Login Form */}
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             {/* Username Field */}
             <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="username" className="block text-sm font-semibold text-gray-700 mb-2">
                 Username
               </label>
               <input
                 type="text"
                 id="username"
                 {...register('username', { required: 'username is required' })}
-                className={ `w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${errors.username && 'border-red-500'}` }
+                className={ `w-full px-4 py-4 bg-[#F5F7F9]  rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${errors.username && 'border-red-500'}` }
                 placeholder="Enter your username"
               />
               {errors.username && (
@@ -57,7 +57,7 @@ export default function LoginPage() {
 
             {/* Password Field */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-2">
                 Password
               </label>
               <div className="relative">
@@ -65,7 +65,7 @@ export default function LoginPage() {
                   type={showPassword ? 'text' : 'password'}
                   id="password"
                   {...register('password', { required: 'Password is required' })}
-                  className={`w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors pr-12 ${errors.username && 'border-red-500'}`}
+                  className={`w-full px-4 py-4 bg-[#F5F7F9]  rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors pr-12 ${errors.username && 'border-red-500'}`}
                   placeholder="Enter your password"
                 />
                 <button
@@ -90,7 +90,8 @@ export default function LoginPage() {
             {/* Login Button */}
             <button
               type="submit"
-              className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-[15px] rounded-xl
+              transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               Login
             </button>

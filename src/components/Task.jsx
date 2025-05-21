@@ -11,7 +11,7 @@ const Task = ({ task, onEdit, onDelete, onToggleComplete }) => {
     : "text-gray-900";
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg p-4 mb-4 group">
+    <div className="bg-[#F5F7F9] border border-gray-200 rounded-2xl py-[15px] px-[20px] mb-4 group">
       <div className="flex items-center justify-between">
         <div className="flex-1">
           {user && user.role === "admin" && (<div className="flex items-center gap-2 mb-2">
