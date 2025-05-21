@@ -8,7 +8,7 @@ const TaskModal = ({ isOpen, onClose, onSave, task = null }) => {
 
   const [formData, setFormData] = useState({
     title: task?.title || '',
-    description: task?.note || '',
+    description: task?.description || '',
     assignedTo: task?.assignedTo || ''
   });
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -143,7 +143,7 @@ const TaskModal = ({ isOpen, onClose, onSave, task = null }) => {
           <button
             onClick={handleCancel}
             type="button"
-            className="px-6 py-2 text-red-500 hover:text-red-600 font-medium transition-colors"
+            className="px-6 py-3 cursor-pointer text-red-500 bg-[#F5F7F9] rounded-xl  hover:text-red-600 font-medium transition-colors"
           >
             Cancel
           </button>
@@ -151,9 +151,10 @@ const TaskModal = ({ isOpen, onClose, onSave, task = null }) => {
             onClick={handleSubmit}
             type="button"
             disabled={!formData.title.trim()}
-            className="px-8 py-3 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-medium rounded-xl transition-colors"
+            className="px-6 py-3 cursor-pointer bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed
+             text-white font-medium rounded-xl transition-colors"
           >
-            {isEditing ? 'Update task' : 'Add task'}
+            {isEditing ? 'Save' : 'Add task'}
           </button>
         </div>
       </div>
