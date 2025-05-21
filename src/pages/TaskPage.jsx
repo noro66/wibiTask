@@ -4,21 +4,16 @@ import Task from '../components/Task.jsx'
 import TaskModal from '../components/TaskModal.jsx'
 import { useAuthStore }               from '../store/authStore.js'
 import { useNavigate }                from 'react-router-dom'
+import { useTaskStore }                  from '../store/taskStore.js'
 
 export default function TaskPage() {
   const { user, logout} = useAuthStore();
   const navigate = useNavigate();
+  useEffect(() => {
+    fetchTasks()
+  }, [])
 
-
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      title: 'Task 01',
-      note: 'Note: Add relevant details, blockers, or context for this task here.',
-      assignee: 'User 1',
-      completed: false
-    }
-  ]);
+  const {tasks, fetchTasks}  = useTaskStore();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
@@ -31,7 +26,7 @@ export default function TaskPage() {
   };
 
   const handleDeleteTask = (taskId) => {
-    setTasks(tasks.filter(task => task.id !== taskId));
+    // setTasks(tasks.filter(task => task.id !== taskId));
   };
 
   const handleToggleComplete = (taskId) => {
@@ -87,7 +82,7 @@ export default function TaskPage() {
 
             {/* User Profile */}
             <div className="flex items-center gap-3">
-              <span className="text-gray-700 font-medium">{user?.username ?? user?.fullName?.split(' ')[0]}</span>
+              <span className="text-gray-700 font-medium undel">{user?.username ?? user?.fullName?.split(' ')[0]}</span>
               <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center"
               onClick={()=> {
                 logout();
