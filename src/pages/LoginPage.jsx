@@ -12,12 +12,16 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-      try{
-       const user = await login(data);
-       if(user) navigate('/tasks');
-      }catch (error){
-        console.log({ error })
+    try {
+      const user = await login(data);
+      if (user) {
+        navigate('/tasks');
       }
+    } catch (error) {
+      const errorMessage = error?.response?.data?.error || 'Authentication failed';
+      console.error(errorMessage);
+      toast.error(errorMessage);
+    }
   };
 
   const togglePasswordVisibility = () => {
